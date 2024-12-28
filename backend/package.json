@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "@idea-app/backend",
   "private": true,
   "version": "0.0.0",
   "scripts": {
@@ -9,9 +9,12 @@
     "prettify": "prettier --loglevel warn --cache --write '{src/**/*,*}.{ts,tsx,js,json,scss,yml}' '!**/{node_modules, dist}/**/*'"
   },
   "dependencies": {
+    "@trpc/server": "^10.45.2",
+    "cors": "^2.8.5",
     "express": "^4.21.2"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.2",
     "prettier": "^3.4.2",

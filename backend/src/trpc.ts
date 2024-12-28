@@ -1,4 +1,4 @@
-import { initTRPC } from '@trpc/server';
+import { initTRPC } from '@trpc/server'
 
 const recipes = [
   { name: 'Recipe name 1', description: 'Recipe description...' },
@@ -6,12 +6,12 @@ const recipes = [
   { name: 'Recipe name 3', description: 'Recipe description...' },
 ]
 
-const trpc = initTRPC.create();
+const trpc = initTRPC.create()
 
 export const trpcRouter = trpc.router({
   getRecipes: trpc.procedure.query(() => {
-    return { recipes };
+    return { recipes }
   }),
-});
+})
 
-export type TrpcRouter = typeof trpcRouter;
+export type TrpcRouter = typeof trpcRouter

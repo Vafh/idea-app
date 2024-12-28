@@ -1,7 +1,7 @@
 import { trpc } from '../../lib/trpc'
 
 const MainPage = () => {
-  const { data, error, isLoading, isError, isFetching} = trpc.getRecipes.useQuery();
+  const { data, error, isLoading, isError, isFetching } = trpc.getRecipes.useQuery()
 
   if (isLoading || isFetching) {
     return <div>Loading...</div>

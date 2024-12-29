@@ -1,4 +1,6 @@
+import { ROUTES } from '../../lib/routes'
 import { trpc } from '../../lib/trpc'
+import { Link } from 'react-router'
 
 const MainPage = () => {
   const { data, error, isLoading, isError, isFetching } = trpc.getRecipes.useQuery()
@@ -16,8 +18,11 @@ const MainPage = () => {
       <h1>Title</h1>
       <div>
         {data?.recipes.map((recipe) => (
-          <div key={recipe.name}>
-            <h2>{recipe.name}</h2>
+          <div key={recipe.id}>
+            <Link to={ROUTES.ViewRecipePage(recipe.id)}>
+              <h2>{recipe.name}</h2>
+            </Link>
+
             <p>{recipe.description}</p>
           </div>
         ))}

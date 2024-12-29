@@ -1,11 +1,17 @@
+import { BrowserRouter, Route, Routes } from 'react-router'
 import { TrpcProvider } from './lib/trpc'
-import { MainPage } from './pages'
+import { MainPage, ViewRecipePage } from './pages'
+import { ROUTES } from './lib/routes'
 
 const App = () => {
-  if (Math.random()) console.log('test')
   return (
     <TrpcProvider>
-      <MainPage />
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<MainPage />} />
+          <Route path={ROUTES.ViewRecipePage('id')} element={<ViewRecipePage />} />
+        </Routes>
+      </BrowserRouter>
     </TrpcProvider>
   )
 }

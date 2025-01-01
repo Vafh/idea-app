@@ -1,4 +1,4 @@
 export const ROUTES = {
-  MainPage: () => '/',
-  ViewRecipePage: (id: number | 'id') => `/recipe/:${id}`,
+  mainPage: () => '/',
+  viewRecipePage: (id: number | 'id') => `/recipe/:${id}`,
 }

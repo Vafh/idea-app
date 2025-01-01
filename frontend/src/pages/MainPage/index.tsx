@@ -19,7 +19,7 @@ const MainPage = () => {
       <div>
         {data?.recipes.map((recipe) => (
           <div key={recipe.id}>
-            <Link to={ROUTES.ViewRecipePage(recipe.id)}>
+            <Link to={ROUTES.viewRecipePage(recipe.id)}>
               <h2>{recipe.name}</h2>
             </Link>
 

@@ -9,7 +9,10 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route index element={<MainPage />} />
-          <Route path={ROUTES.viewRecipePage('id')} element={<ViewRecipePage />} />
+          <Route
+            path={ROUTES.viewRecipePage(':id')}
+            element={<ViewRecipePage />}
+          />
         </Routes>
       </BrowserRouter>
     </TrpcProvider>

@@ -1,0 +1,29 @@
+@import '../../styles/_vars.scss';
+@import '../../styles/_mixins.scss';
+
+.title {
+  @include h1;
+}
+
+.recipes {
+  .recipe {
+    padding: 20px;
+    border: 1px solid $black;
+    border-radius: 10px;
+    & + .recipe {
+      margin-top: 20px;
+    }
+
+    .name {
+      @include h2;
+
+      .link {
+        @include link;
+      }
+    }
+
+    .description {
+      font-size: 18px;
+    }
+  }
+}

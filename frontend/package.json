@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "types": "tsc --noEmit --project ./tsconfig.app.json && tsc --noEmit --project ./tsconfig.node.json",
     "stylelint": "stylelint --cache --cache-location ./node_modules/.cache/.stylelintcache 'src/**/*.scss'",
+    "stylecheck": "sass --update -q ./src:./node_modules/.cache/.stylecheckcache",
     "prettify": "prettier --loglevel warn --cache --write '{src/**/*,*}.{ts,tsx,js,json,scss,yml}' '!**/{node_modules, dist}/**/*'"
   },
   "dependencies": {

@@ -2,6 +2,7 @@ import { ROUTES } from '../../lib/routes'
 import { trpc } from '../../lib/trpc'
 import { Link } from 'react-router'
 import styles from './index.module.scss'
+import { Segment } from '../../components/Segment'
 
 const MainPage = () => {
   const { data, error, isLoading, isError, isFetching } =
@@ -16,25 +17,26 @@ const MainPage = () => {
   }
 
   return (
-    <div>
-      <h1 className={styles.title}>Title</h1>
+    <Segment title="All recipes">
       <div className={styles.recipes}>
         {data?.recipes.map((recipe) => (
           <div className={styles.recipe} key={recipe.id}>
-            <h2 className={styles.name}>
-              <Link
-                className={styles.link}
-                to={ROUTES.viewRecipePage(recipe.id)}
-              >
-                {recipe.name}
-              </Link>
-            </h2>
-
-            <p className={styles.description}>{recipe.description}</p>
+            <Segment
+              size={2}
+              title={
+                <Link
+                  className={styles.link}
+                  to={ROUTES.viewRecipePage(recipe.id)}
+                >
+                  {recipe.name}
+                </Link>
+              }
+              description={recipe.description}
+            ></Segment>
           </div>
         ))}
       </div>
-    </div>
+    </Segment>
   )
 }
 export default MainPage

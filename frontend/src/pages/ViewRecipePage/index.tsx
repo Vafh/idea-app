@@ -1,6 +1,7 @@
 import { useParams } from 'react-router'
 import { trpc } from '../../lib/trpc'
 import styles from './index.module.scss'
+import { Segment } from '../../components/Segment'
 
 const ViewRecipePage = () => {
   const { id } = useParams()
@@ -25,16 +26,12 @@ const ViewRecipePage = () => {
   }
 
   return (
-    <div>
-      <h1 className={styles.title}>{data.recipe.name}</h1>
-      <p className={styles.description}>
-        Recipe description: <span>{data.recipe.description}</span>
-      </p>
+    <Segment title={data.recipe.name} description={data.recipe.description}>
       <div
         className={styles.text}
         dangerouslySetInnerHTML={{ __html: data.recipe.text }}
       />
-    </div>
+    </Segment>
   )
 }
 export default ViewRecipePage

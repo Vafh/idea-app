@@ -1,7 +1,7 @@
 import { useParams } from 'react-router'
 import { trpc } from '../../lib/trpc'
 import styles from './index.module.scss'
-import { Segment } from '../../components/Segment'
+import { Segment } from '../../components'
 
 const ViewRecipePage = () => {
   const { id } = useParams()

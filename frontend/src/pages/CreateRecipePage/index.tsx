@@ -3,8 +3,11 @@ import { Input, Segment, Textarea } from '../../components'
 import { v4 as uuid } from 'uuid'
 import { withZodSchema } from 'formik-validator-zod'
 import { z } from 'zod'
+import { trpc } from '../../lib/trpc'
 
 const CreateRecipePage = () => {
+  const createRecipe = trpc.createRecipe.useMutation()
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -20,8 +23,13 @@ const CreateRecipePage = () => {
         }),
       }),
     ),
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.info('Submitted', { ...values, id: uuid() })
+
+      await createRecipe.mutateAsync({
+        id: uuid(),
+        ...values,
+      })
     },
   })
 

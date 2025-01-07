@@ -2,8 +2,8 @@ import { useFormik } from 'formik'
 import { Input, Segment, Textarea } from '../../components'
 import { v4 as uuid } from 'uuid'
 import { withZodSchema } from 'formik-validator-zod'
-import { z } from 'zod'
 import { trpc } from '../../lib/trpc'
+import { validateCreateRecipeTrpcInput } from '@idea-app/backend/src/router/createRecipeTrpcRoute/input'
 
 const CreateRecipePage = () => {
   const createRecipe = trpc.createRecipe.useMutation()
@@ -13,24 +13,10 @@ const CreateRecipePage = () => {
       name: '',
       description: '',
       text: '',
+      id: uuid(),
     },
-    validate: withZodSchema(
-      z.object({
-        name: z.string().nonempty('Name is required'),
-        description: z.string().nonempty('Description is required'),
-        text: z.string().nonempty('Text is required').min(10, {
-          message: 'Text should be at least 10 characters long',
-        }),
-      }),
-    ),
-    onSubmit: async (values) => {
-      console.info('Submitted', { ...values, id: uuid() })
-
-      await createRecipe.mutateAsync({
-        id: uuid(),
-        ...values,
-      })
-    },
+    validate: withZodSchema(validateCreateRecipeTrpcInput),
+    onSubmit: async (values) => await createRecipe.mutateAsync(values),
   })
 
   return (

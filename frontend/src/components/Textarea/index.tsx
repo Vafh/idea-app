@@ -1,6 +1,7 @@
 import { type FormikProps } from 'formik'
 import styles from './index.module.scss'
 import classNames from 'classnames'
+import Alert from '../Alert'
 
 const Textarea = ({
   name,
@@ -44,7 +45,7 @@ const Textarea = ({
         id={name}
         disabled={disabled}
       />
-      {invalid && <div className={styles.error}>{error}</div>}
+      {invalid && <Alert color="red">{error}</Alert>}
     </div>
   )
 }

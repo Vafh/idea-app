@@ -1,7 +1,8 @@
 import Alert from './Alert'
+import Button from './Button'
 import Input from './Input'
 import Layout from './Layout'
 import Segment from './Segment'
 import Textarea from './Textarea'
 
-export { Layout, Input, Segment, Textarea, Alert }
+export { Layout, Input, Segment, Textarea, Alert, Button }

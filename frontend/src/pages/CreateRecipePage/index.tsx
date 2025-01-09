@@ -1,5 +1,12 @@
 import { useFormik } from 'formik'
-import { Alert, Button, Input, Segment, Textarea } from '../../components'
+import {
+  Alert,
+  Button,
+  FormItems,
+  Input,
+  Segment,
+  Textarea,
+} from '../../components'
 import { v4 as uuid } from 'uuid'
 import { withZodSchema } from 'formik-validator-zod'
 import { trpc } from '../../lib/trpc'
@@ -45,19 +52,21 @@ const CreateRecipePage = () => {
           formik.handleSubmit()
         }}
       >
-        <Input name="name" label="Name" formik={formik} />
-        <Input
-          name="description"
-          maxWidth={500}
-          label="Description"
-          formik={formik}
-        />
-        <Textarea name="text" label="Text" formik={formik} />
-        {successMsgVisible && (
-          <Alert color="green">Recipe created successfully!</Alert>
-        )}
-        {!!submittingError && <Alert color="red">{submittingError}</Alert>}
-        <Button loading={formik.isSubmitting}>Create Recipe</Button>
+        <FormItems>
+          <Input name="name" label="Name" formik={formik} />
+          <Input
+            name="description"
+            maxWidth={500}
+            label="Description"
+            formik={formik}
+          />
+          <Textarea name="text" label="Text" formik={formik} />
+          {successMsgVisible && (
+            <Alert color="green">Recipe created successfully!</Alert>
+          )}
+          {!!submittingError && <Alert color="red">{submittingError}</Alert>}
+          <Button loading={formik.isSubmitting}>Create Recipe</Button>
+        </FormItems>
       </form>
     </Segment>
   )

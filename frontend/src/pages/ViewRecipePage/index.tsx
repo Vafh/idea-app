@@ -2,6 +2,7 @@ import { useParams } from 'react-router'
 import { trpc } from '../../lib/trpc'
 import styles from './index.module.scss'
 import { Segment } from '../../components'
+import { format } from 'date-fns'
 
 const ViewRecipePage = () => {
   const { id } = useParams()
@@ -27,6 +28,9 @@ const ViewRecipePage = () => {
 
   return (
     <Segment title={data.recipe.name} description={data.recipe.description}>
+      <div className={styles.createdAt}>
+        Created at: {format(data.recipe.createdAt, 'dd.MM.yyyy HH:mm')}
+      </div>
       <div
         className={styles.text}
         dangerouslySetInnerHTML={{ __html: data.recipe.text }}

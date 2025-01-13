@@ -20,6 +20,7 @@
     "@trpc/react-query": "^10.45.2",
     "@trpc/server": "^10.45.2",
     "classnames": "^2.5.1",
+    "date-fns": "^4.1.0",
     "formik": "^2.4.6",
     "formik-validator-zod": "^2.0.1",
     "include-media": "^2.0.0",
@@ -28,6 +29,7 @@
     "react-router": "^7.1.1",
     "reset-css": "^5.0.2",
     "sass": "^1.83.0",
+    "superjson": "^2.2.2",
     "uuid": "^11.0.3",
     "zod": "^3.24.1"
   },

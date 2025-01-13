@@ -1,12 +1,17 @@
-import { recipes, trpc } from '../../lib'
+import { trpc } from '../../lib'
 import { validateCreateRecipeTrpcInput } from './input'
 
 export const createRecipeTrpcRoute = trpc.procedure
   .input(validateCreateRecipeTrpcInput)
-  .mutation(({ input }) => {
-    if (recipes.find((recipe) => recipe.id === input.id)) {
+  .mutation(async ({ input, ctx }) => {
+    const existingRecipe = await ctx.prisma.recipe.findUnique({
+      where: { id: input.id },
+    })
+    if (existingRecipe) {
       throw new Error('Recipe already exists')
     }
-    recipes.unshift(input)
+    await ctx.prisma.recipe.create({
+      data: input,
+    })
     return true
   })

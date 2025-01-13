@@ -7,6 +7,9 @@ export const getRecipesTrpcRoute = trpc.procedure.query(async ({ ctx }) => {
       description: true,
       id: true,
     },
+    orderBy: {
+      createdAt: 'desc',
+    },
   })
   return { recipes }
 })

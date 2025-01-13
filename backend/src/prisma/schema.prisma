@@ -8,8 +8,9 @@ datasource db {
 }
 
 model Recipe {
-  id          String @id @default(uuid())
-  name        String @unique
+  id          String   @id @default(uuid())
+  name        String   @unique
   description String
   text        String
+  createdAt    DateTime @default(now())
 }

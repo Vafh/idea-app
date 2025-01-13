@@ -14,9 +14,16 @@ const Layout = () => {
             <Link className={styles.link} to={ROUTES.mainPage()}>
               All recipes
             </Link>
+          </li>
+          <li className={styles.item}>
             <button onClick={() => navigate(ROUTES.createRecipe())}>
               Create New Recipe
             </button>
+          </li>
+          <li className={styles.item}>
+            <Link className={styles.link} to={ROUTES.signUp()}>
+              Sign Up
+            </Link>
           </li>
         </ul>
       </div>

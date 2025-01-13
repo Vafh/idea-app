@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router'
 import { TrpcProvider } from './lib/trpc'
-import { CreateRecipePage, MainPage, ViewRecipePage } from './pages'
+import { CreateRecipePage, MainPage, ViewRecipePage, SignUpPage } from './pages'
 import { ROUTES } from './lib/routes'
 import { Layout } from './components'
 import './styles/global.scss'
@@ -11,6 +11,7 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route element={<Layout />}>
+            <Route path={ROUTES.signUp()} element={<SignUpPage />} />
             <Route index element={<MainPage />} />
             <Route
               path={ROUTES.viewRecipePage(':id')}

@@ -25,6 +25,11 @@ const Layout = () => {
               Sign Up
             </Link>
           </li>
+          <li className={styles.item}>
+            <Link className={styles.link} to={ROUTES.signIn()}>
+              Sign In
+            </Link>
+          </li>
         </ul>
       </div>
       <div className={styles.content}>

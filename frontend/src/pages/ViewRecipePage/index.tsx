@@ -1,8 +1,8 @@
+import { format } from 'date-fns'
 import { useParams } from 'react-router'
+import { Segment } from '../../components'
 import { trpc } from '../../lib/trpc'
 import styles from './index.module.scss'
-import { Segment } from '../../components'
-import { format } from 'date-fns'
 
 const ViewRecipePage = () => {
   const { id } = useParams()

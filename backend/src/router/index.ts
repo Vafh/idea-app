@@ -1,10 +1,10 @@
 import { trpc } from '../lib'
-import { getRecipesTrpcRoute } from './getRecipesTrpcRoute'
-import { getRecipeTrpcRoute } from './getRecipeTrpcRoute'
 import { createRecipeTrpcRoute } from './createRecipeTrpcRoute'
-import { signUpTrpcRoute } from './signUp'
-import { signInTrpcRoute } from './signIn'
 import getCurrentUser from './getCurrentUser'
+import { getRecipeTrpcRoute } from './getRecipeTrpcRoute'
+import { getRecipesTrpcRoute } from './getRecipesTrpcRoute'
+import { signInTrpcRoute } from './signIn'
+import { signUpTrpcRoute } from './signUp'
 
 export const trpcRouter = trpc.router({
   getRecipes: getRecipesTrpcRoute,

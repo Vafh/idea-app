@@ -1,13 +1,13 @@
+import { validateSignUpTrpcInput } from '@idea-app/backend/src/router/signUp/input'
 import { useFormik } from 'formik'
 import { withZodSchema } from 'formik-validator-zod'
-import { useState } from 'react'
-import { z } from 'zod'
-import { useNavigate } from 'react-router'
 import Cookies from 'js-cookie'
-import { validateSignUpTrpcInput } from '@idea-app/backend/src/router/signUp/input'
-import { trpc } from '../../lib/trpc'
-import { ROUTES } from '../../lib/routes'
+import { useState } from 'react'
+import { useNavigate } from 'react-router'
+import { z } from 'zod'
 import { Alert, Button, FormItems, Input, Segment } from '../../components'
+import { ROUTES } from '../../lib/routes'
+import { trpc } from '../../lib/trpc'
 
 const SignUpPage = () => {
   const navigate = useNavigate()

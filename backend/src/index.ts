@@ -1,8 +1,9 @@
-import express from 'express'
 import cors from 'cors'
+import express from 'express'
+import { AppContext, createAppContext, applyPassportToExpressApp } from './lib'
+import { env } from './lib/env'
 import { applyTrpcToExpressApp } from './lib/trpc'
 import { trpcRouter } from './router'
-import { AppContext, createAppContext, applyPassportToExpressApp } from './lib'
 
 void (async () => {
   let context: AppContext | null = null
@@ -20,8 +21,8 @@ void (async () => {
     applyPassportToExpressApp(expressApp, context)
     applyTrpcToExpressApp(expressApp, trpcRouter, context)
 
-    expressApp.listen(3005, () => {
-      console.info('Listening at http://localhost:3005')
+    expressApp.listen(env.PORT, () => {
+      console.info(`Listening at http://localhost:${env.PORT}`)
     })
   } catch (error) {
     console.error(error)

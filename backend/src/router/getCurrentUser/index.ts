@@ -1,5 +1,5 @@
-import { trpc } from '../../lib'
 import _ from 'lodash'
+import { trpc } from '../../lib'
 
 const getCurrentUser = trpc.procedure.query(({ ctx }) => {
   return {

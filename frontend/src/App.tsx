@@ -1,4 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router'
+import { Layout } from './components'
+import { ROUTES } from './lib/routes'
 import { TrpcProvider } from './lib/trpc'
 import {
   CreateRecipePage,
@@ -8,8 +10,6 @@ import {
   SignInPage,
   SignOutPage,
 } from './pages'
-import { ROUTES } from './lib/routes'
-import { Layout } from './components'
 import './styles/global.scss'
 
 const App = () => {

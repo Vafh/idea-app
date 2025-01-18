@@ -1,7 +1,7 @@
-import { type FormikProps } from 'formik'
-import styles from './index.module.scss'
 import classNames from 'classnames'
+import { type FormikProps } from 'formik'
 import Alert from '../Alert'
+import styles from './index.module.scss'
 
 const Input = ({
   name,

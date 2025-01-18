@@ -1,8 +1,8 @@
+import { Link } from 'react-router'
+import { Segment } from '../../components'
 import { ROUTES } from '../../lib/routes'
 import { trpc } from '../../lib/trpc'
-import { Link } from 'react-router'
 import styles from './index.module.scss'
-import { Segment } from '../../components'
 
 const MainPage = () => {
   const { data, error, isLoading, isError, isFetching } =

@@ -1,6 +1,6 @@
 import { trpc } from '../../lib/trpc'
-import { validateSignUpTrpcInput } from './input'
 import { getPasswordHash, signJWT } from '../../utils'
+import { validateSignUpTrpcInput } from './input'
 
 export const signUpTrpcRoute = trpc.procedure
   .input(validateSignUpTrpcInput)

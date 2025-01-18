@@ -13,8 +13,7 @@ const compat = new FlatCompat({
     allConfig: js.configs.all
 });
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default [
+const eslintConfig = [
     ...globalConfig,
     ...fixupConfigRules(compat.extends("react-app")),
     {
@@ -40,3 +39,5 @@ export default [
         },
     },
 ];
+
+export default eslintConfig;

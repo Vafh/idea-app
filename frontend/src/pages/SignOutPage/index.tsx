@@ -1,8 +1,8 @@
 import Cookies from 'js-cookie'
 import { useEffect } from 'react'
-import { trpc } from '../../lib/trpc'
 import { useNavigate } from 'react-router'
 import { ROUTES } from '../../lib/routes'
+import { trpc } from '../../lib/trpc'
 
 const SignOutPage = () => {
   const navigate = useNavigate()
@@ -12,8 +12,7 @@ const SignOutPage = () => {
     void trpcUtils.invalidate().then(() => {
       navigate(ROUTES.signIn())
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [navigate, trpcUtils])
 
   return <p>Loading...</p>
 }

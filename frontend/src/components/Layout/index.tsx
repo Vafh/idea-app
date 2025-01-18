@@ -1,7 +1,7 @@
+import { Link, Outlet, useNavigate } from 'react-router'
 import { ROUTES } from '../../lib/routes'
 import { trpc } from '../../lib/trpc'
 import styles from './index.module.scss'
-import { Link, Outlet, useNavigate } from 'react-router'
 
 const Layout = () => {
   const navigate = useNavigate()

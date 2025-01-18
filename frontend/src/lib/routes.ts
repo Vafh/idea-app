@@ -4,4 +4,5 @@ export const ROUTES = {
   createRecipe: () => '/recipe/create',
   signUp: () => '/sign-up',
   signIn: () => '/sign-in',
+  signOut: () => '/sign-out',
 }

@@ -6,6 +6,7 @@ import {
   ViewRecipePage,
   SignUpPage,
   SignInPage,
+  SignOutPage,
 } from './pages'
 import { ROUTES } from './lib/routes'
 import { Layout } from './components'
@@ -16,6 +17,7 @@ const App = () => {
     <TrpcProvider>
       <BrowserRouter>
         <Routes>
+          <Route path={ROUTES.signOut()} element={<SignOutPage />} />
           <Route element={<Layout />}>
             <Route path={ROUTES.signUp()} element={<SignUpPage />} />
             <Route path={ROUTES.signIn()} element={<SignInPage />} />

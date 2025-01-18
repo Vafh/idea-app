@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import { applyTrpcToExpressApp } from './lib/trpc'
 import { trpcRouter } from './router'
-import { AppContext, createAppContext } from './lib'
+import { AppContext, createAppContext, applyPassportToExpressApp } from './lib'
 
 void (async () => {
   let context: AppContext | null = null
@@ -17,6 +17,7 @@ void (async () => {
     expressApp.get('/ping', (req, res) => {
       res.send('pong')
     })
+    applyPassportToExpressApp(expressApp, context)
     applyTrpcToExpressApp(expressApp, trpcRouter, context)
 
     expressApp.listen(3005, () => {

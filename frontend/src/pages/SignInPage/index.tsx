@@ -4,9 +4,13 @@ import { useState } from 'react'
 import { trpc } from '../../lib/trpc'
 import { Alert, Button, FormItems, Input, Segment } from '../../components'
 import { validateSignInTrpcInput } from '@idea-app/backend/src/router/signIn/input'
+import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router'
+import { ROUTES } from '../../lib/routes'
 
 const SignInPage = () => {
-  const [successMessageVisible, setSuccessMessageVisible] = useState(false)
+  const navigate = useNavigate()
+  const trpcUtils = trpc.useUtils()
   const [submittingError, setSubmittingError] = useState<string | null>(null)
   const signIn = trpc.signIn.useMutation()
   const formik = useFormik({
@@ -18,12 +22,10 @@ const SignInPage = () => {
     onSubmit: async (values) => {
       try {
         setSubmittingError(null)
-        await signIn.mutateAsync(values)
-        formik.resetForm()
-        setSuccessMessageVisible(true)
-        setTimeout(() => {
-          setSuccessMessageVisible(false)
-        }, 3000)
+        const { token } = await signIn.mutateAsync(values)
+        Cookies.set('token', token, { expires: 99999 })
+        trpcUtils.invalidate()
+        navigate(ROUTES.mainPage())
       } catch (err: any) {
         setSubmittingError(err.message)
       }
@@ -45,9 +47,6 @@ const SignInPage = () => {
             <Alert color="red">Some fields are invalid</Alert>
           )}
           {submittingError && <Alert color="red">{submittingError}</Alert>}
-          {successMessageVisible && (
-            <Alert color="green">Thanks for sign up!</Alert>
-          )}
           <Button loading={formik.isSubmitting}>Sign In</Button>
         </FormItems>
       </form>

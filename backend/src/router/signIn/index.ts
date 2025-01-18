@@ -1,6 +1,6 @@
 import { trpc } from '../../lib/trpc'
 import { validateSignInTrpcInput } from './input'
-import { getPasswordHash } from '../../utils'
+import { getPasswordHash, signJWT } from '../../utils'
 
 export const signInTrpcRoute = trpc.procedure
   .input(validateSignInTrpcInput)
@@ -16,5 +16,8 @@ export const signInTrpcRoute = trpc.procedure
         'Wrong credentials (please check your username or password)',
       )
     }
-    return true
+
+    const token = signJWT(user.id)
+
+    return { token }
   })

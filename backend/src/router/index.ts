@@ -4,6 +4,7 @@ import { getRecipeTrpcRoute } from './getRecipeTrpcRoute'
 import { createRecipeTrpcRoute } from './createRecipeTrpcRoute'
 import { signUpTrpcRoute } from './signUp'
 import { signInTrpcRoute } from './signIn'
+import getCurrentUser from './getCurrentUser'
 
 export const trpcRouter = trpc.router({
   getRecipes: getRecipesTrpcRoute,
@@ -11,6 +12,7 @@ export const trpcRouter = trpc.router({
   createRecipe: createRecipeTrpcRoute,
   signUp: signUpTrpcRoute,
   signIn: signInTrpcRoute,
+  getCurrentUser,
 })
 
 export type TrpcRouter = typeof trpcRouter

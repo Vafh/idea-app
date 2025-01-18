@@ -1,9 +1,12 @@
 import { ROUTES } from '../../lib/routes'
+import { trpc } from '../../lib/trpc'
 import styles from './index.module.scss'
 import { Link, Outlet, useNavigate } from 'react-router'
 
 const Layout = () => {
   const navigate = useNavigate()
+  const { data, isLoading, isFetching, isError } =
+    trpc.getCurrentUser.useQuery()
 
   return (
     <div className={styles.layout}>
@@ -15,21 +18,33 @@ const Layout = () => {
               All recipes
             </Link>
           </li>
-          <li className={styles.item}>
-            <button onClick={() => navigate(ROUTES.createRecipe())}>
-              Create New Recipe
-            </button>
-          </li>
-          <li className={styles.item}>
-            <Link className={styles.link} to={ROUTES.signUp()}>
-              Sign Up
-            </Link>
-          </li>
-          <li className={styles.item}>
-            <Link className={styles.link} to={ROUTES.signIn()}>
-              Sign In
-            </Link>
-          </li>
+          {isLoading || isFetching || isError ? null : data.currentUser ? (
+            <>
+              <li className={styles.item}>
+                <button onClick={() => navigate(ROUTES.createRecipe())}>
+                  Create New Recipe
+                </button>
+              </li>
+              <li className={styles.item}>
+                <Link className={styles.link} to={ROUTES.signOut()}>
+                  Log Out ({data.currentUser?.username})
+                </Link>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className={styles.item}>
+                <Link className={styles.link} to={ROUTES.signUp()}>
+                  Sign Up
+                </Link>
+              </li>
+              <li className={styles.item}>
+                <Link className={styles.link} to={ROUTES.signIn()}>
+                  Sign In
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       </div>
       <div className={styles.content}>

@@ -6,6 +6,14 @@ export const getRecipeTrpcRoute = trpc.procedure
   .query(async ({ input, ctx }) => {
     const recipe = await ctx.prisma.recipe.findUnique({
       where: { id: input.id },
+      include: {
+        author: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
+      },
     })
     return { recipe }
   })

@@ -31,6 +31,7 @@ const ViewRecipePage = () => {
       <div className={styles.createdAt}>
         Created at: {format(data.recipe.createdAt, 'dd.MM.yyyy HH:mm')}
       </div>
+      <div className={styles.author}>Author: {data.recipe.author.username}</div>
       <div
         className={styles.text}
         dangerouslySetInnerHTML={{ __html: data.recipe.text }}

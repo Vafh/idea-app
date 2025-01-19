@@ -1,8 +1,9 @@
 import { format } from 'date-fns'
 import { useParams } from 'react-router'
-import { Segment } from '../../components'
+import { LinkButton, Segment } from '../../components'
 import { trpc } from '../../lib/trpc'
 import styles from './index.module.scss'
+import { ROUTES } from '../../lib/routes'
 
 const ViewRecipePage = () => {
   const { id } = useParams()
@@ -11,31 +12,49 @@ const ViewRecipePage = () => {
     return <div>Recipe not found</div>
   }
 
-  const { data, error, isLoading, isError, isFetching } =
-    trpc.getRecipe.useQuery({ id })
+  const getRecipeResult = trpc.getRecipe.useQuery({ id })
 
-  if (isLoading || isFetching) {
+  const getCurrentUserResult = trpc.getCurrentUser.useQuery()
+
+  if (
+    getRecipeResult.isLoading ||
+    getRecipeResult.isFetching ||
+    getCurrentUserResult.isLoading ||
+    getCurrentUserResult.isFetching
+  ) {
     return <div>Loading...</div>
   }
 
-  if (isError) {
-    return <div>Error: {error.message}</div>
+  if (getRecipeResult.isError) {
+    return <span>Error: {getRecipeResult.error.message}</span>
   }
 
-  if (!data.recipe) {
-    return <div>Recipe not found</div>
+  if (getCurrentUserResult.isError) {
+    return <span>Error: {getCurrentUserResult.error.message}</span>
   }
+
+  if (!getRecipeResult.data.recipe) {
+    return <span>Recipe not found</span>
+  }
+
+  const recipe = getRecipeResult.data.recipe
+  const currentUser = getCurrentUserResult.data.currentUser
 
   return (
-    <Segment title={data.recipe.name} description={data.recipe.description}>
+    <Segment title={recipe.name} description={recipe.description}>
       <div className={styles.createdAt}>
-        Created at: {format(data.recipe.createdAt, 'dd.MM.yyyy HH:mm')}
+        Created at: {format(recipe.createdAt, 'dd.MM.yyyy HH:mm')}
       </div>
-      <div className={styles.author}>Author: {data.recipe.author.username}</div>
+      <div className={styles.author}>Author: {recipe.author.username}</div>
       <div
         className={styles.text}
-        dangerouslySetInnerHTML={{ __html: data.recipe.text }}
+        dangerouslySetInnerHTML={{ __html: recipe.text }}
       />
+      {currentUser?.id === recipe.authorId && (
+        <div className={styles.editButton}>
+          <LinkButton to={ROUTES.editRecipe(recipe.id)}>Edit Recipe</LinkButton>
+        </div>
+      )}
     </Segment>
   )
 }

@@ -3,7 +3,17 @@ import Button from './Button'
 import FormItems from './FormItems'
 import Input from './Input'
 import Layout from './Layout'
+import LinkButton from './LinkButton'
 import Segment from './Segment'
 import Textarea from './Textarea'
 
-export { Layout, Input, Segment, Textarea, Alert, Button, FormItems }
+export {
+  Layout,
+  Input,
+  Segment,
+  Textarea,
+  Alert,
+  Button,
+  FormItems,
+  LinkButton,
+}

@@ -1,3 +1,4 @@
+import { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 import { trpc } from '../lib'
 import { createRecipeTrpcRoute } from './createRecipeTrpcRoute'
 import getCurrentUser from './getCurrentUser'
@@ -5,6 +6,7 @@ import { getRecipeTrpcRoute } from './getRecipeTrpcRoute'
 import { getRecipesTrpcRoute } from './getRecipesTrpcRoute'
 import { signInTrpcRoute } from './signIn'
 import { signUpTrpcRoute } from './signUp'
+import { updateRecipeTrpcRoute } from './updateRecipe'
 
 export const trpcRouter = trpc.router({
   getRecipes: getRecipesTrpcRoute,
@@ -13,6 +15,9 @@ export const trpcRouter = trpc.router({
   signUp: signUpTrpcRoute,
   signIn: signInTrpcRoute,
   getCurrentUser,
+  updateRecipe: updateRecipeTrpcRoute,
 })
 
 export type TrpcRouter = typeof trpcRouter
+export type TrpcRouterInput = inferRouterInputs<TrpcRouter>
+export type TrpcRouterOutput = inferRouterOutputs<TrpcRouter>

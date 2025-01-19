@@ -11,6 +11,7 @@ import {
   SignOutPage,
 } from './pages'
 import './styles/global.scss'
+import EditRecipePage from './pages/EditRecipePage'
 
 const App = () => {
   return (
@@ -29,6 +30,10 @@ const App = () => {
             <Route
               path={ROUTES.createRecipe()}
               element={<CreateRecipePage />}
+            />
+            <Route
+              path={ROUTES.editRecipe(':id')}
+              element={<EditRecipePage />}
             />
           </Route>
         </Routes>

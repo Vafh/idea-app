@@ -21,15 +21,16 @@ const EditRecipePage = withPageWrapper({
       id,
     })
   },
-  checkExists: ({ queryResult }) => !!queryResult.data.recipe,
-  checkExistsMessage: 'Recipe not found',
-  checkAccess: ({ queryResult, ctx }) =>
-    !!ctx.currentUser &&
-    ctx.currentUser.id === queryResult.data.recipe?.authorId,
-  checkAccessMessage: 'A recipe can only be edited by the author',
-  setProps: ({ queryResult }) => ({
-    recipe: queryResult.data.recipe!,
-  }),
+  setProps: ({ queryResult, ctx, checkExists, checkAccess }) => {
+    const recipe = checkExists(queryResult.data.recipe, 'Recipe not found')
+    checkAccess(
+      ctx.currentUser?.id === recipe.authorId,
+      'A recipe can only be edited by the author',
+    )
+    return {
+      recipe,
+    }
+  },
 })(({ recipe }) => {
   const navigate = useNavigate()
   const updateRecipe = trpc.updateRecipe.useMutation()

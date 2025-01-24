@@ -13,10 +13,8 @@ const ViewRecipePage = withPageWrapper({
       id,
     })
   },
-  checkExists: ({ queryResult }) => !!queryResult.data.recipe,
-  checkExistsMessage: 'Idea not found',
-  setProps: ({ queryResult, ctx }) => ({
-    recipe: queryResult.data.recipe!,
+  setProps: ({ queryResult, checkExists, ctx }) => ({
+    recipe: checkExists(queryResult.data.recipe, 'Recipe not found'),
     currentUser: ctx.currentUser,
   }),
 })(({ recipe, currentUser }) => (

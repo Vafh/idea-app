@@ -9,9 +9,11 @@ import {
   Textarea,
 } from '../../components'
 import { trpc } from '../../lib/trpc'
-import { useFormikForm } from '../../hooks'
+import { useFormikForm, withPageWrapper } from '../../hooks'
 
-const CreateRecipePage = () => {
+const CreateRecipePage = withPageWrapper({
+  authorizedOnly: true,
+})(() => {
   const createRecipe = trpc.createRecipe.useMutation()
 
   const { formik, buttonProps, alertProps } = useFormikForm({
@@ -53,6 +55,6 @@ const CreateRecipePage = () => {
       </form>
     </Segment>
   )
-}
+})
 
 export default CreateRecipePage

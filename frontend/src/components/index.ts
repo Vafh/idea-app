@@ -1,5 +1,6 @@
 import Alert from './Alert'
 import Button from './Button'
+import ErrorPageComponent from './ErrorPageComponent'
 import FormItems from './FormItems'
 import Input from './Input'
 import Layout from './Layout'
@@ -16,4 +17,5 @@ export {
   Button,
   FormItems,
   LinkButton,
+  ErrorPageComponent,
 }

@@ -11,15 +11,26 @@ import { useNavigate, useParams } from 'react-router'
 import { pick } from 'lodash'
 import { ROUTES } from '../../lib/routes'
 import { validateUpdateRecipeTrpcInput } from '@idea-app/backend/src/router/updateRecipe/input'
-import { TrpcRouterOutput } from '@idea-app/backend/src/router'
-import { useFormikForm } from '../../hooks'
-import { useCurrentUser } from '../../lib/context'
+import { useFormikForm, withPageWrapper } from '../../hooks'
 
-const EditIdeaComponent = ({
-  recipe,
-}: {
-  recipe: NonNullable<TrpcRouterOutput['getRecipe']['recipe']>
-}) => {
+const EditRecipePage = withPageWrapper({
+  authorizedOnly: true,
+  useQuery: () => {
+    const { id } = useParams() as { id: string }
+    return trpc.getRecipe.useQuery({
+      id,
+    })
+  },
+  checkExists: ({ queryResult }) => !!queryResult.data.recipe,
+  checkExistsMessage: 'Recipe not found',
+  checkAccess: ({ queryResult, ctx }) =>
+    !!ctx.currentUser &&
+    ctx.currentUser.id === queryResult.data.recipe?.authorId,
+  checkAccessMessage: 'A recipe can only be edited by the author',
+  setProps: ({ queryResult }) => ({
+    recipe: queryResult.data.recipe!,
+  }),
+})(({ recipe }) => {
   const navigate = useNavigate()
   const updateRecipe = trpc.updateRecipe.useMutation()
 
@@ -52,38 +63,6 @@ const EditIdeaComponent = ({
       </form>
     </Segment>
   )
-}
-
-const EditRecipePage = () => {
-  const { id } = useParams() as { id: string }
-  const getRecipeResult = trpc.getRecipe.useQuery({
-    id,
-  })
-  const currentUser = useCurrentUser()
-
-  if (getRecipeResult.isLoading || getRecipeResult.isFetching) {
-    return <span>Loading...</span>
-  }
-
-  if (getRecipeResult.isError) {
-    return <span>Error: {getRecipeResult.error.message}</span>
-  }
-
-  if (!getRecipeResult.data.recipe) {
-    return <span>Recipe not found</span>
-  }
-
-  const recipe = getRecipeResult.data.recipe
-
-  if (!currentUser) {
-    return <span>Only for authorized</span>
-  }
-
-  if (currentUser.id !== recipe.authorId) {
-    return <span>A recipe can only be edited by the author</span>
-  }
-
-  return <EditIdeaComponent recipe={recipe} />
-}
+})
 
 export default EditRecipePage

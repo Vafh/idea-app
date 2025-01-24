@@ -7,9 +7,11 @@ import { trpc } from '../../lib/trpc'
 import styles from './index.module.scss'
 import DiscussingIdeasIcon from '../../assets/discussing-ideas.svg'
 import InputPassword from '../../components/InputPassword'
-import { useFormikForm } from '../../hooks'
+import { useFormikForm, withPageWrapper } from '../../hooks'
 
-const SignInPage = () => {
+const SignInPage = withPageWrapper({
+  redirectAuthorized: true,
+})(() => {
   const navigate = useNavigate()
   const trpcUtils = trpc.useUtils()
   const signIn = trpc.signIn.useMutation()
@@ -23,7 +25,6 @@ const SignInPage = () => {
       const { token } = await signIn.mutateAsync(values)
       Cookies.set('token', token, { expires: 99999 })
       trpcUtils.invalidate()
-      navigate(ROUTES.mainPage())
     },
     resetOnSuccess: false,
   })
@@ -76,6 +77,6 @@ const SignInPage = () => {
       </div>
     </div>
   )
-}
+})
 
 export default SignInPage

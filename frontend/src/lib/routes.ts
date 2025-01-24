@@ -6,4 +6,5 @@ export const ROUTES = {
   signIn: () => '/sign-in',
   signOut: () => '/sign-out',
   editRecipe: (id: string) => `/recipe/${id}/edit`,
+  notFound: () => '/not-found',
 }

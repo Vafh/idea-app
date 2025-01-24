@@ -9,6 +9,7 @@ import {
   SignUpPage,
   SignInPage,
   SignOutPage,
+  NotFoundPage,
 } from './pages'
 import './styles/global.scss'
 import EditRecipePage from './pages/EditRecipePage'
@@ -35,6 +36,7 @@ const App = () => {
                 path={ROUTES.editRecipe(':id')}
                 element={<EditRecipePage />}
               />
+              <Route path="*" element={<NotFoundPage />} />
             </Route>
             <Route path={ROUTES.signIn()} element={<SignInPage />} />
             <Route path={ROUTES.signUp()} element={<SignUpPage />} />

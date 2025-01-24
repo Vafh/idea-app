@@ -1,0 +1,24 @@
+@import '../../styles/vars';
+@import '../../styles/mixins';
+
+.field {
+  position: relative;
+
+  &.disabled {
+    opacity: 0.5;
+  }
+
+  .passwordIcon {
+    position: absolute;
+    top: 30px;
+    right: 10px;
+    width: 16px;
+    height: 16px;
+    transition: color 0.3s ease-in-out;
+    cursor: pointer;
+  }
+
+  * input {
+    padding-right: 20px !important;
+  }
+}

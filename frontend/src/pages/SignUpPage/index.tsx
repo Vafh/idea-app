@@ -5,9 +5,12 @@ import Cookies from 'js-cookie'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { z } from 'zod'
-import { Alert, Button, FormItems, Input, Segment } from '../../components'
+import { Alert, Button, Input, Segment } from '../../components'
 import { ROUTES } from '../../lib/routes'
 import { trpc } from '../../lib/trpc'
+import InputPassword from '../../components/InputPassword'
+import styles from './index.module.scss'
+import DiscussingIdeasIcon from '../../assets/discussing-ideas.svg'
 
 const SignUpPage = () => {
   const navigate = useNavigate()
@@ -48,31 +51,61 @@ const SignUpPage = () => {
     },
   })
 
+  const handleNavigateToLogin = () => navigate(ROUTES.signIn())
+
   return (
-    <Segment title="Sign Up">
-      <form onSubmit={formik.handleSubmit}>
-        <FormItems>
-          <Input label="Username" name="username" formik={formik} />
-          <Input
-            label="Password"
-            name="password"
-            type="password"
-            formik={formik}
-          />
-          <Input
-            label="Password again"
-            name="passwordAgain"
-            type="password"
-            formik={formik}
-          />
-          {!formik.isValid && !!formik.submitCount && (
-            <Alert color="red">Some fields are invalid</Alert>
-          )}
-          {submittingError && <Alert color="red">{submittingError}</Alert>}
-          <Button loading={formik.isSubmitting}>Sign Up</Button>
-        </FormItems>
-      </form>
-    </Segment>
+    <div className={styles.wrapper}>
+      <div className={styles.formWrapper}>
+        <div className={styles.formShadow}>
+          <Segment
+            title="Sign Up"
+            subTitle="Welcome !"
+            className={styles.segment}
+            classNameContent={styles.segmentContent}
+          >
+            <form onSubmit={formik.handleSubmit} className={styles.formItems}>
+              <div className={styles.inputs}>
+                <Input
+                  label="User name"
+                  name="username"
+                  formik={formik}
+                  maxWidth="none"
+                />
+                <InputPassword
+                  label="Password"
+                  name="password"
+                  formik={formik}
+                  maxWidth="none"
+                />
+                <InputPassword
+                  label="Confirm password"
+                  name="passwordAgain"
+                  formik={formik}
+                  maxWidth="none"
+                />
+                {!formik.isValid && !!formik.submitCount && (
+                  <Alert color="red">Some fields are invalid</Alert>
+                )}
+                {submittingError && (
+                  <Alert color="red">{submittingError}</Alert>
+                )}
+              </div>
+              <Button loading={formik.isSubmitting}>Register</Button>
+
+              <p>
+                Already have an Account?{' '}
+                <span className={styles.login} onClick={handleNavigateToLogin}>
+                  Login here!
+                </span>
+              </p>
+            </form>
+          </Segment>
+        </div>
+      </div>
+      <div className={styles.imageWrapper}>
+        <img src={DiscussingIdeasIcon} alt="discussion ideas icon" />
+      </div>
+    </div>
   )
 }
 

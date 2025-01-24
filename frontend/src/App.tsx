@@ -20,8 +20,6 @@ const App = () => {
         <Routes>
           <Route path={ROUTES.signOut()} element={<SignOutPage />} />
           <Route element={<Layout />}>
-            <Route path={ROUTES.signUp()} element={<SignUpPage />} />
-            <Route path={ROUTES.signIn()} element={<SignInPage />} />
             <Route index element={<MainPage />} />
             <Route
               path={ROUTES.viewRecipePage(':id')}
@@ -36,6 +34,8 @@ const App = () => {
               element={<EditRecipePage />}
             />
           </Route>
+          <Route path={ROUTES.signIn()} element={<SignInPage />} />
+          <Route path={ROUTES.signUp()} element={<SignUpPage />} />
         </Routes>
       </BrowserRouter>
     </TrpcProvider>

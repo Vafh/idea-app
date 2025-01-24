@@ -1,8 +1,5 @@
 import { validateSignUpTrpcInput } from '@idea-app/backend/src/router/signUp/input'
-import { useFormik } from 'formik'
-import { withZodSchema } from 'formik-validator-zod'
 import Cookies from 'js-cookie'
-import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { z } from 'zod'
 import { Alert, Button, Input, Segment } from '../../components'
@@ -11,44 +8,38 @@ import { trpc } from '../../lib/trpc'
 import InputPassword from '../../components/InputPassword'
 import styles from './index.module.scss'
 import DiscussingIdeasIcon from '../../assets/discussing-ideas.svg'
+import { useFormikForm } from '../../hooks'
 
 const SignUpPage = () => {
   const navigate = useNavigate()
   const trpcUtils = trpc.useUtils()
-  const [submittingError, setSubmittingError] = useState<string | null>(null)
   const signUp = trpc.signUp.useMutation()
-  const formik = useFormik({
+  const { formik, buttonProps, alertProps } = useFormikForm({
     initialValues: {
       username: '',
       password: '',
       passwordAgain: '',
     },
-    validate: withZodSchema(
-      validateSignUpTrpcInput
-        .extend({
-          passwordAgain: z.string().min(1),
-        })
-        .superRefine((val, ctx) => {
-          if (val.password !== val.passwordAgain) {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              message: 'Passwords must be the same',
-              path: ['passwordAgain'],
-            })
-          }
-        }),
-    ),
+    validationSchema: validateSignUpTrpcInput
+      .extend({
+        passwordAgain: z.string().min(1),
+      })
+      .superRefine((val, ctx) => {
+        if (val.password !== val.passwordAgain) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Passwords must be the same',
+            path: ['passwordAgain'],
+          })
+        }
+      }),
     onSubmit: async (values) => {
-      try {
-        setSubmittingError(null)
-        const { token } = await signUp.mutateAsync(values)
-        Cookies.set('token', token, { expires: 99999 })
-        trpcUtils.invalidate()
-        navigate(ROUTES.mainPage())
-      } catch (err: any) {
-        setSubmittingError(err.message)
-      }
+      const { token } = await signUp.mutateAsync(values)
+      Cookies.set('token', token, { expires: 99999 })
+      trpcUtils.invalidate()
+      navigate(ROUTES.mainPage())
     },
+    resetOnSuccess: false,
   })
 
   const handleNavigateToLogin = () => navigate(ROUTES.signIn())
@@ -83,14 +74,9 @@ const SignUpPage = () => {
                   formik={formik}
                   maxWidth="none"
                 />
-                {!formik.isValid && !!formik.submitCount && (
-                  <Alert color="red">Some fields are invalid</Alert>
-                )}
-                {submittingError && (
-                  <Alert color="red">{submittingError}</Alert>
-                )}
+                <Alert {...alertProps} />
               </div>
-              <Button loading={formik.isSubmitting}>Register</Button>
+              <Button {...buttonProps}>Register</Button>
 
               <p>
                 Already have an Account?{' '}

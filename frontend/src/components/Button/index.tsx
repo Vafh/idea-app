@@ -1,13 +1,8 @@
 import cn from 'classnames'
 import css from './index.module.scss'
+import { ButtonProps } from './index.types'
 
-const Button = ({
-  children,
-  loading = false,
-}: {
-  children: React.ReactNode
-  loading?: boolean
-}) => {
+const Button = ({ children, loading = false }: ButtonProps) => {
   return (
     <button
       className={cn({ [css.button]: true, [css.disabled]: loading })}

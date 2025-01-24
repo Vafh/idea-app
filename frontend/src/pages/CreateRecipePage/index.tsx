@@ -1,7 +1,4 @@
 import { validateCreateRecipeTrpcInput } from '@idea-app/backend/src/router/createRecipeTrpcRoute/input'
-import { useFormik } from 'formik'
-import { withZodSchema } from 'formik-validator-zod'
-import { useState } from 'react'
 import { v4 as uuid } from 'uuid'
 import {
   Alert,
@@ -12,36 +9,25 @@ import {
   Textarea,
 } from '../../components'
 import { trpc } from '../../lib/trpc'
+import { useFormikForm } from '../../hooks'
 
 const CreateRecipePage = () => {
-  const [successMsgVisible, setSuccessMsgVisible] = useState(false)
-  const [submittingError, setSubmittingError] = useState<string | null>(null)
-
   const createRecipe = trpc.createRecipe.useMutation()
 
-  const formik = useFormik({
+  const { formik, buttonProps, alertProps } = useFormikForm({
     initialValues: {
       name: '',
       description: '',
       text: '',
       id: uuid(),
     },
-    validate: withZodSchema(validateCreateRecipeTrpcInput),
+    validationSchema: validateCreateRecipeTrpcInput,
     onSubmit: async (values) => {
-      try {
-        await createRecipe.mutateAsync(values)
-        formik.resetForm()
-        setSuccessMsgVisible(true)
-        setTimeout(() => {
-          setSuccessMsgVisible(false)
-        }, 3000)
-      } catch (error: any) {
-        setSubmittingError(error.message)
-        setTimeout(() => {
-          setSubmittingError(null)
-        }, 3000)
-      }
+      await createRecipe.mutateAsync(values)
+      formik.resetForm()
     },
+    successMessage: 'Recipe created successfully!',
+    showValidationAlert: true,
   })
 
   return (
@@ -61,11 +47,8 @@ const CreateRecipePage = () => {
             formik={formik}
           />
           <Textarea name="text" label="Text" formik={formik} />
-          {successMsgVisible && (
-            <Alert color="green">Recipe created successfully!</Alert>
-          )}
-          {!!submittingError && <Alert color="red">{submittingError}</Alert>}
-          <Button loading={formik.isSubmitting}>Create Recipe</Button>
+          <Alert {...alertProps} />
+          <Button {...buttonProps}>Create Recipe</Button>
         </FormItems>
       </form>
     </Segment>

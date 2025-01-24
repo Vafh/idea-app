@@ -1,6 +1,3 @@
-import { useFormik } from 'formik'
-import { withZodSchema } from 'formik-validator-zod'
-import { useState } from 'react'
 import {
   Alert,
   Button,
@@ -15,6 +12,7 @@ import { pick } from 'lodash'
 import { ROUTES } from '../../lib/routes'
 import { validateUpdateRecipeTrpcInput } from '@idea-app/backend/src/router/updateRecipe/input'
 import { TrpcRouterOutput } from '@idea-app/backend/src/router'
+import { useFormikForm } from '../../hooks'
 
 const EditIdeaComponent = ({
   recipe,
@@ -22,24 +20,17 @@ const EditIdeaComponent = ({
   recipe: NonNullable<TrpcRouterOutput['getRecipe']['recipe']>
 }) => {
   const navigate = useNavigate()
-  const [submittingError, setSubmittingError] = useState<string | null>(null)
-
   const updateRecipe = trpc.updateRecipe.useMutation()
 
-  const formik = useFormik({
+  const { formik, buttonProps, alertProps } = useFormikForm({
     initialValues: pick(recipe, ['name', 'description', 'text', 'id']),
-    validate: withZodSchema(
-      validateUpdateRecipeTrpcInput.omit({ recipeId: true }),
-    ),
+    validationSchema: validateUpdateRecipeTrpcInput.omit({ recipeId: true }),
     onSubmit: async (values) => {
-      try {
-        setSubmittingError(null)
-        await updateRecipe.mutateAsync({ recipeId: recipe.id, ...values })
-        navigate(ROUTES.viewRecipePage(recipe.id))
-      } catch (err: any) {
-        setSubmittingError(err.message)
-      }
+      await updateRecipe.mutateAsync({ recipeId: recipe.id, ...values })
+      navigate(ROUTES.viewRecipePage(recipe.id))
     },
+    resetOnSuccess: false,
+    showValidationAlert: true,
   })
 
   return (
@@ -54,8 +45,8 @@ const EditIdeaComponent = ({
             formik={formik}
           />
           <Textarea name="text" label="Text" formik={formik} />
-          {!!submittingError && <Alert color="red">{submittingError}</Alert>}
-          <Button loading={formik.isSubmitting}>Update Recipe</Button>
+          <Alert {...alertProps} />
+          <Button {...buttonProps}>Update Recipe</Button>
         </FormItems>
       </form>
     </Segment>

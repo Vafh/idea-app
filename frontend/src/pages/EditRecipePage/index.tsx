@@ -13,6 +13,7 @@ import { ROUTES } from '../../lib/routes'
 import { validateUpdateRecipeTrpcInput } from '@idea-app/backend/src/router/updateRecipe/input'
 import { TrpcRouterOutput } from '@idea-app/backend/src/router'
 import { useFormikForm } from '../../hooks'
+import { useCurrentUser } from '../../lib/context'
 
 const EditIdeaComponent = ({
   recipe,
@@ -58,14 +59,9 @@ const EditRecipePage = () => {
   const getRecipeResult = trpc.getRecipe.useQuery({
     id,
   })
-  const getCurrentUserResult = trpc.getCurrentUser.useQuery()
+  const currentUser = useCurrentUser()
 
-  if (
-    getRecipeResult.isLoading ||
-    getRecipeResult.isFetching ||
-    getCurrentUserResult.isLoading ||
-    getCurrentUserResult.isFetching
-  ) {
+  if (getRecipeResult.isLoading || getRecipeResult.isFetching) {
     return <span>Loading...</span>
   }
 
@@ -73,16 +69,11 @@ const EditRecipePage = () => {
     return <span>Error: {getRecipeResult.error.message}</span>
   }
 
-  if (getCurrentUserResult.isError) {
-    return <span>Error: {getCurrentUserResult.error.message}</span>
-  }
-
   if (!getRecipeResult.data.recipe) {
     return <span>Recipe not found</span>
   }
 
   const recipe = getRecipeResult.data.recipe
-  const currentUser = getCurrentUserResult.data.currentUser
 
   if (!currentUser) {
     return <span>Only for authorized</span>

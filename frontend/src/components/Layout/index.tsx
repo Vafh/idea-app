@@ -1,12 +1,11 @@
 import { Link, Outlet, useNavigate } from 'react-router'
 import { ROUTES } from '../../lib/routes'
-import { trpc } from '../../lib/trpc'
 import styles from './index.module.scss'
+import { useCurrentUser } from '../../lib/context'
 
 const Layout = () => {
   const navigate = useNavigate()
-  const { data, isLoading, isFetching, isError } =
-    trpc.getCurrentUser.useQuery()
+  const currentUser = useCurrentUser()
 
   return (
     <div className={styles.layout}>
@@ -18,7 +17,7 @@ const Layout = () => {
               All recipes
             </Link>
           </li>
-          {isLoading || isFetching || isError ? null : data.currentUser ? (
+          {currentUser ? (
             <>
               <li className={styles.item}>
                 <button onClick={() => navigate(ROUTES.createRecipe())}>
@@ -27,7 +26,7 @@ const Layout = () => {
               </li>
               <li className={styles.item}>
                 <Link className={styles.link} to={ROUTES.signOut()}>
-                  Log Out ({data.currentUser?.username})
+                  Log Out ({currentUser?.username})
                 </Link>
               </li>
             </>

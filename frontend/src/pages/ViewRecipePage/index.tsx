@@ -4,24 +4,16 @@ import { LinkButton, Segment } from '../../components'
 import { trpc } from '../../lib/trpc'
 import styles from './index.module.scss'
 import { ROUTES } from '../../lib/routes'
+import { useCurrentUser } from '../../lib/context'
 
 const ViewRecipePage = () => {
-  const { id } = useParams()
-
-  if (!id) {
-    return <div>Recipe not found</div>
-  }
+  const { id } = useParams() as { id: string }
 
   const getRecipeResult = trpc.getRecipe.useQuery({ id })
 
-  const getCurrentUserResult = trpc.getCurrentUser.useQuery()
+  const currentUser = useCurrentUser()
 
-  if (
-    getRecipeResult.isLoading ||
-    getRecipeResult.isFetching ||
-    getCurrentUserResult.isLoading ||
-    getCurrentUserResult.isFetching
-  ) {
+  if (getRecipeResult.isLoading || getRecipeResult.isFetching) {
     return <div>Loading...</div>
   }
 
@@ -29,16 +21,11 @@ const ViewRecipePage = () => {
     return <span>Error: {getRecipeResult.error.message}</span>
   }
 
-  if (getCurrentUserResult.isError) {
-    return <span>Error: {getCurrentUserResult.error.message}</span>
-  }
-
   if (!getRecipeResult.data.recipe) {
     return <span>Recipe not found</span>
   }
 
   const recipe = getRecipeResult.data.recipe
-  const currentUser = getCurrentUserResult.data.currentUser
 
   return (
     <Segment title={recipe.name} description={recipe.description}>

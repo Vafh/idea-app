@@ -12,32 +12,35 @@ import {
 } from './pages'
 import './styles/global.scss'
 import EditRecipePage from './pages/EditRecipePage'
+import { AppContextProvider } from './lib/context'
 
 const App = () => {
   return (
     <TrpcProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path={ROUTES.signOut()} element={<SignOutPage />} />
-          <Route element={<Layout />}>
-            <Route index element={<MainPage />} />
-            <Route
-              path={ROUTES.viewRecipePage(':id')}
-              element={<ViewRecipePage />}
-            />
-            <Route
-              path={ROUTES.createRecipe()}
-              element={<CreateRecipePage />}
-            />
-            <Route
-              path={ROUTES.editRecipe(':id')}
-              element={<EditRecipePage />}
-            />
-          </Route>
-          <Route path={ROUTES.signIn()} element={<SignInPage />} />
-          <Route path={ROUTES.signUp()} element={<SignUpPage />} />
-        </Routes>
-      </BrowserRouter>
+      <AppContextProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path={ROUTES.signOut()} element={<SignOutPage />} />
+            <Route element={<Layout />}>
+              <Route index element={<MainPage />} />
+              <Route
+                path={ROUTES.viewRecipePage(':id')}
+                element={<ViewRecipePage />}
+              />
+              <Route
+                path={ROUTES.createRecipe()}
+                element={<CreateRecipePage />}
+              />
+              <Route
+                path={ROUTES.editRecipe(':id')}
+                element={<EditRecipePage />}
+              />
+            </Route>
+            <Route path={ROUTES.signIn()} element={<SignInPage />} />
+            <Route path={ROUTES.signUp()} element={<SignUpPage />} />
+          </Routes>
+        </BrowserRouter>
+      </AppContextProvider>
     </TrpcProvider>
   )
 }

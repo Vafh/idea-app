@@ -1,9 +1,9 @@
 import { sendToClientCurrentUser } from '../../lib/models'
-import { zUpdateProfileTrpcInput } from './input'
+import { validateUpdateProfileTrpcInput } from './input'
 import { trpc } from '../../lib'
 
 export const updateProfileTrpcRoute = trpc.procedure
-  .input(zUpdateProfileTrpcInput)
+  .input(validateUpdateProfileTrpcInput)
   .mutation(async ({ ctx, input }) => {
     if (!ctx.currentUser) {
       throw new Error('UNAUTHORIZED')

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const zUpdateProfileTrpcInput = z.object({
+export const validateUpdateProfileTrpcInput = z.object({
   username: z
     .string()
     .min(1)

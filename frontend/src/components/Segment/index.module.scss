@@ -23,4 +23,8 @@
     margin-bottom: 30px;
     font-style: 25px;
   }
+
+  & + .segment {
+    margin-top: 30px;
+  }
 }

@@ -6,5 +6,4 @@ export const validateCreateRecipeTrpcInput = z.object({
   text: z.string().nonempty('Text is required').min(10, {
     message: 'Text should be at least 10 characters long',
   }),
-  id: z.string(),
 })

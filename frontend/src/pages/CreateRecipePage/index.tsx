@@ -1,5 +1,4 @@
 import { validateCreateRecipeTrpcInput } from '@idea-app/backend/src/router/createRecipeTrpcRoute/input'
-import { v4 as uuid } from 'uuid'
 import {
   Alert,
   Button,
@@ -21,7 +20,6 @@ const CreateRecipePage = withPageWrapper({
       name: '',
       description: '',
       text: '',
-      id: uuid(),
     },
     validationSchema: validateCreateRecipeTrpcInput,
     onSubmit: async (values) => {

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router'
-import { Segment } from '../../components'
+import { Alert, Segment } from '../../components'
 import { ROUTES } from '../../lib/routes'
 import { trpc } from '../../lib/trpc'
 import styles from './index.module.scss'
@@ -7,18 +7,24 @@ import { useCurrentUser } from '../../lib/context'
 
 const MainPage = () => {
   const navigate = useNavigate()
-  const { data, error, isLoading, isError, isFetching } =
-    trpc.getRecipes.useQuery()
-
+  const {
+    data,
+    error,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isRefetching,
+  } = trpc.getRecipes.useInfiniteQuery(
+    {
+      limit: 2,
+    },
+    {
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+    },
+  )
   const currentUser = useCurrentUser()
-
-  if (isLoading || isFetching) {
-    return <div>Loading...</div>
-  }
-
-  if (isError) {
-    return <div>Error: {error.message}</div>
-  }
 
   if (!currentUser) {
     navigate(ROUTES.signUp())
@@ -26,23 +32,43 @@ const MainPage = () => {
 
   return (
     <Segment title="All recipes">
-      <div className={styles.recipes}>
-        {data?.recipes.map((recipe) => (
-          <div className={styles.recipe} key={recipe.id}>
-            <Segment
-              size={2}
-              title={
-                <Link
-                  className={styles.link}
-                  to={ROUTES.viewRecipePage(recipe.id)}
-                >
-                  {recipe.name}
-                </Link>
-              }
-              description={recipe.description}
-            ></Segment>
-          </div>
-        ))}
+      {isLoading || isRefetching ? (
+        <div>Loading...</div>
+      ) : isError ? (
+        <Alert color="red">{error.message}</Alert>
+      ) : (
+        <div className={styles.recipes}>
+          {data.pages
+            .flatMap((page) => page.recipes)
+            .map((recipe) => (
+              <div className={styles.recipe} key={recipe.id}>
+                <Segment
+                  size={2}
+                  title={
+                    <Link
+                      className={styles.link}
+                      to={ROUTES.viewRecipePage(recipe.id)}
+                    >
+                      {recipe.name}
+                    </Link>
+                  }
+                  description={recipe.description}
+                ></Segment>
+              </div>
+            ))}
+        </div>
+      )}
+      <div className={styles.more}>
+        {hasNextPage && !isFetchingNextPage && (
+          <button
+            onClick={() => {
+              void fetchNextPage()
+            }}
+          >
+            Load more
+          </button>
+        )}
+        {isFetchingNextPage && <span>Loading...</span>}
       </div>
     </Segment>
   )

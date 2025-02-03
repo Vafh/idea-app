@@ -2,6 +2,9 @@ import { Link, Outlet, useNavigate } from 'react-router'
 import { ROUTES } from '../../lib/routes'
 import styles from './index.module.scss'
 import { useCurrentUser } from '../../lib/context'
+import { createRef } from 'react'
+
+export const layoutContentRef = createRef<HTMLDivElement>()
 
 const Layout = () => {
   const navigate = useNavigate()
@@ -51,7 +54,7 @@ const Layout = () => {
           )}
         </ul>
       </div>
-      <div className={styles.content}>
+      <div className={styles.content} ref={layoutContentRef}>
         <Outlet />
       </div>
     </div>

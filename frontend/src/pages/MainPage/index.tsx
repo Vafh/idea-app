@@ -4,6 +4,8 @@ import { ROUTES } from '../../lib/routes'
 import { trpc } from '../../lib/trpc'
 import styles from './index.module.scss'
 import { useCurrentUser } from '../../lib/context'
+import InfiniteScroll from 'react-infinite-scroller'
+import { layoutContentRef } from '../../components/Layout'
 
 const MainPage = () => {
   const navigate = useNavigate()
@@ -38,38 +40,46 @@ const MainPage = () => {
         <Alert color="red">{error.message}</Alert>
       ) : (
         <div className={styles.recipes}>
-          {data.pages
-            .flatMap((page) => page.recipes)
-            .map((recipe) => (
-              <div className={styles.recipe} key={recipe.id}>
-                <Segment
-                  size={2}
-                  title={
-                    <Link
-                      className={styles.link}
-                      to={ROUTES.viewRecipePage(recipe.id)}
-                    >
-                      {recipe.name}
-                    </Link>
-                  }
-                  description={recipe.description}
-                ></Segment>
+          <InfiniteScroll
+            threshold={100}
+            loadMore={() => {
+              if (!isFetchingNextPage && hasNextPage) {
+                void fetchNextPage()
+              }
+            }}
+            hasMore={hasNextPage}
+            loader={
+              <div className={styles.loader} key="loader">
+                Loading...
               </div>
-            ))}
+            }
+            useWindow={
+              (layoutContentRef.current &&
+                getComputedStyle(layoutContentRef.current).overflow) !== 'auto'
+            }
+            getScrollParent={() => layoutContentRef.current}
+          >
+            {data.pages
+              .flatMap((page) => page.recipes)
+              .map((recipe) => (
+                <div className={styles.recipe} key={recipe.id}>
+                  <Segment
+                    size={2}
+                    title={
+                      <Link
+                        className={styles.link}
+                        to={ROUTES.viewRecipePage(recipe.id)}
+                      >
+                        {recipe.name}
+                      </Link>
+                    }
+                    description={recipe.description}
+                  ></Segment>
+                </div>
+              ))}
+          </InfiniteScroll>
         </div>
       )}
-      <div className={styles.more}>
-        {hasNextPage && !isFetchingNextPage && (
-          <button
-            onClick={() => {
-              void fetchNextPage()
-            }}
-          >
-            Load more
-          </button>
-        )}
-        {isFetchingNextPage && <span>Loading...</span>}
-      </div>
     </Segment>
   )
 }

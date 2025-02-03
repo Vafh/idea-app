@@ -17,6 +17,11 @@ const Layout = () => {
               All recipes
             </Link>
           </li>
+          <li className={styles.item}>
+            <Link className={styles.link} to={ROUTES.editProfile()}>
+              Edit Profile
+            </Link>
+          </li>
           {currentUser ? (
             <>
               <li className={styles.item}>

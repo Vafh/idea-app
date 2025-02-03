@@ -1,4 +1,5 @@
 import CreateRecipePage from './CreateRecipePage'
+import EditProfilePage from './EditProfilePage'
 import MainPage from './MainPage'
 import NotFoundPage from './NotFoundPage'
 import SignInPage from './SignInPage'
@@ -14,4 +15,5 @@ export {
   SignInPage,
   SignOutPage,
   NotFoundPage,
+  EditProfilePage,
 }

@@ -7,4 +7,5 @@ export const ROUTES = {
   signOut: () => '/sign-out',
   editRecipe: (id: string) => `/recipe/${id}/edit`,
   notFound: () => '/not-found',
+  editProfile: () => '/edit-profile',
 }

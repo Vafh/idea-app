@@ -10,6 +10,7 @@ import {
   SignInPage,
   SignOutPage,
   NotFoundPage,
+  EditProfilePage,
 } from './pages'
 import './styles/global.scss'
 import EditRecipePage from './pages/EditRecipePage'
@@ -35,6 +36,10 @@ const App = () => {
               <Route
                 path={ROUTES.editRecipe(':id')}
                 element={<EditRecipePage />}
+              />
+              <Route
+                path={ROUTES.editProfile()}
+                element={<EditProfilePage />}
               />
               <Route path="*" element={<NotFoundPage />} />
             </Route>

@@ -1,9 +1,9 @@
-import _ from 'lodash'
 import { trpc } from '../../lib'
+import { sendToClientCurrentUser } from '../../lib/models'
 
 const getCurrentUser = trpc.procedure.query(({ ctx }) => {
   return {
-    currentUser: ctx.currentUser && _.pick(ctx.currentUser, ['id', 'username']),
+    currentUser: sendToClientCurrentUser(ctx.currentUser),
   }
 })
 

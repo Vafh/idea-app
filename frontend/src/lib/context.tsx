@@ -1,6 +1,7 @@
 import { createContext, useContext } from 'react'
 import { trpc } from './trpc'
 import { TrpcRouterOutput } from '@idea-app/backend/src/router'
+import { Loader } from '../components'
 
 export type TCurrentUser = TrpcRouterOutput['getCurrentUser']['currentUser']
 
@@ -26,7 +27,7 @@ export const AppContextProvider = ({
       }}
     >
       {isLoading || isFetching ? (
-        <p>Loading...</p>
+        <Loader type="page" />
       ) : isError ? (
         <p>Error: {error.message}</p>
       ) : (

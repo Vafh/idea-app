@@ -6,7 +6,7 @@ import React, { useEffect } from 'react'
 import { useAppContext, type AppContext } from '../lib/context'
 import { useNavigate } from 'react-router'
 import { ROUTES } from '../lib/routes'
-import { ErrorPageComponent } from '../components'
+import { ErrorPageComponent, Loader } from '../components'
 import { NotFoundPage } from '../pages'
 
 class CheckExistsError extends Error {}
@@ -99,7 +99,7 @@ const PageWrapper = <
   }, [redirectNeeded, navigate])
 
   if (queryResult?.isLoading || queryResult?.isFetching || redirectNeeded) {
-    return <p>Loading...</p>
+    return <Loader type="page" />
   }
 
   if (queryResult?.isError) {

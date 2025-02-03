@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import cn from 'classnames'
 import { type FormikProps } from 'formik'
 import Alert from '../Alert'
 import styles from './index.module.scss'
@@ -24,7 +24,7 @@ const Input = ({
 
   return (
     <div
-      className={classNames({
+      className={cn({
         [styles.field]: true,
         [styles.disabled]: disabled,
       })}
@@ -33,7 +33,7 @@ const Input = ({
         {label}
       </label>
       <input
-        className={classNames({
+        className={cn({
           [styles.input]: true,
           [styles.invalid]: invalid,
         })}

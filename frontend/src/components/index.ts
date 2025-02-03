@@ -5,6 +5,7 @@ import FormItems from './FormItems'
 import Input from './Input'
 import Layout from './Layout'
 import LinkButton from './LinkButton'
+import Loader from './Loader'
 import Segment from './Segment'
 import Textarea from './Textarea'
 
@@ -18,4 +19,5 @@ export {
   FormItems,
   LinkButton,
   ErrorPageComponent,
+  Loader,
 }

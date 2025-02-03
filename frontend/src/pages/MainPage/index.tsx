@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router'
-import { Alert, Segment } from '../../components'
+import { Alert, Loader, Segment } from '../../components'
 import { ROUTES } from '../../lib/routes'
 import { trpc } from '../../lib/trpc'
 import styles from './index.module.scss'
@@ -35,7 +35,7 @@ const MainPage = () => {
   return (
     <Segment title="All recipes">
       {isLoading || isRefetching ? (
-        <div>Loading...</div>
+        <Loader type="section" />
       ) : isError ? (
         <Alert color="red">{error.message}</Alert>
       ) : (
@@ -50,7 +50,7 @@ const MainPage = () => {
             hasMore={hasNextPage}
             loader={
               <div className={styles.loader} key="loader">
-                Loading...
+                <Loader type="section" />
               </div>
             }
             useWindow={

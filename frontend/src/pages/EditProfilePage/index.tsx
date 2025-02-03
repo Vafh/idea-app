@@ -7,8 +7,8 @@ import { Input } from '../../components'
 
 const EditProfilePage = withPageWrapper({
   authorizedOnly: true,
-  setProps: ({ ctx }) => ({
-    currentUser: ctx.currentUser!,
+  setProps: ({ getAuthorizedUser }) => ({
+    currentUser: getAuthorizedUser(),
   }),
 })(({ currentUser }) => {
   const trpcUtils = trpc.useContext()
